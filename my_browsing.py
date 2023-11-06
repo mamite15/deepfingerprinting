@@ -23,7 +23,7 @@ def input_urls_file():
     #print("\n########## Start processing ##########")
     #print("Input filepath of urls : ")
     # ファイルの入力の受付(フルパス)
-    input_path = "test_url_list.txt"
+    input_path = "test_url_list2.txt"
     #print("\nCheck input file ...\n")
     # ファイルの存在チェック
     #if os.path.exists(input_path):
@@ -81,8 +81,9 @@ def validate_url(url_list):
 # *** ブラウジングを実行する関数 ***
 def browsing_urls(url_list):
     options = webdriver.ChromeOptions()
+    options.add_argument('--headless')
     # ブラウザを最大化
-    options.add_argument("--start-maximized")
+    #options.add_argument("--start-maximized")
     # 「Chromeは自動テストソフトウェアによって制御されています。」を消すためのオプションの指定
     options.add_experimental_option("excludeSwitches", ["enable-automation"])
     options.add_experimental_option('useAutomationExtension', False)
@@ -93,9 +94,10 @@ def browsing_urls(url_list):
         # URLリスト全体中何個目のURLを表示しているかを出力
         print("  " + str(i+1) + "/" + str(len(url_list)))
         # URLにアクセス
-        for num in range(10):
-            driver.get(url)
-            print(str(num) + "/" + "10")
+        #for num in range(10):
+         #   driver.get(url)
+          #  print(str(num) + "/" + "10")
+        driver.get(url)
         # ↓各URLに行いたい処理があればここで呼び出す関数を変更する
     print("===== end =====\n")
     # 終了
