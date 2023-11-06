@@ -23,7 +23,7 @@ def input_urls_file():
     #print("\n########## Start processing ##########")
     #print("Input filepath of urls : ")
     # ファイルの入力の受付(フルパス)
-    input_path = "test_url_list2.txt"
+    input_path = "test_url_list.txt"
     #print("\nCheck input file ...\n")
     # ファイルの存在チェック
     #if os.path.exists(input_path):
