@@ -23,7 +23,7 @@ def input_urls_file():
     #print("\n########## Start processing ##########")
     #print("Input filepath of urls : ")
     # ファイルの入力の受付(フルパス)
-    input_path = "test_url_list.txt"
+    input_path = "test_url_list2.txt"
     #print("\nCheck input file ...\n")
     # ファイルの存在チェック
     #if os.path.exists(input_path):
@@ -46,38 +46,6 @@ def get_url_list(input_path):
     targetFile.close()
     return url_list
 
-
-# *** URLスキームとステータスコードを検証する関数 ***
-def validate_url(url_list):
-    print("\nCheck url scheme and status code ...\n")
-    # エラーフラグ
-    hasError = False
-    for url in url_list:
-        # Tips:readlines()で読み込んだ1行には改行コードがついてくるので削除
-        unsafe_url = url.rstrip()
-        # URLのスキームパターン
-        URL_PTN = re.compile(r"^(http|https)://")
-        # パターンに一致しない場合はエラー
-        if not (URL_PTN.match(unsafe_url)):
-            print("  [ERROR]: Url isn't valid! : " + unsafe_url)
-            hasError = True
-            # スキームが正しくない場合にはURLにリクエストしない
-            continue
-        # スキームが正しい場合にURLにリクエスト
-        r = requests.get(unsafe_url)
-        # ステータスコードが200(リダイレクトでも200)以外の場合はエラー
-        if (r.status_code != 200):
-            print("  [ERROR]: Status code isn't 200! : [" +
-                  r.status_code + "]:" + unsafe_url)
-            hasError = True
-    # スキームが正しくない、またはステータスコードが200以外のものがあった場合には終了
-    if hasError:
-        print("\nSystem Exit.\n")
-        sys.exit()
-    print("  [OK]: All urls are valid and 200.")
-    print("  [OK]: Number of urls : " + str(len(url_list)))
-
-
 # *** ブラウジングを実行する関数 ***
 def browsing_urls(url_list):
     options = webdriver.ChromeOptions()
@@ -90,19 +58,29 @@ def browsing_urls(url_list):
     driver = webdriver.Chrome(options=options)
     print("\n===== start =====")
     # 一行ずつブラウザを開く
-    for i, url in enumerate(url_list):
+    for num in range(10):
+        for i, url in enumerate(url_list):
         # URLリスト全体中何個目のURLを表示しているかを出力
-        print("  " + str(i+1) + "/" + str(len(url_list)))
+            print("  " + str(i+1) + "/" + str(len(url_list)) +" forthe" + str(num+1) + "thtime")
         # URLにアクセス
         #for num in range(10):
          #   driver.get(url)
           #  print(str(num) + "/" + "10")
-        driver.get(url)
+            driver.get(url)
+            
+    #for i, url in enumerate(url_list):
+    #    # URLリスト全体中何個目のURLを表示しているかを出力
+    #    print("  " + str(i+1) + "/" + str(len(url_list)))
+    #    # URLにアクセス
+    #    #for num in range(10):
+    #     #   driver.get(url)
+    #      #  print(str(num) + "/" + "10")
+    #    driver.get(url)
         # ↓各URLに行いたい処理があればここで呼び出す関数を変更する
     print("===== end =====\n")
     # 終了
-    driver.quit()
+    #time.sleep(1)
     print("Complete.\n")
-
+    driver.close()
 # main関数の実行
 main()
