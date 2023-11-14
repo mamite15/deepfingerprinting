@@ -62,21 +62,25 @@ def browsing_urls(url_list):
         for i, url in enumerate(url_list):
         # URLリスト全体中何個目のURLを表示しているかを出力
             print("  " + str(i+1) + "/" + str(len(url_list)) +" forthe" + str(num+1) + "thtime")
+            #スクショファイル名指定
+            screenshotcnt=0
+            screenshotcnt+=1
+            file="image/screen" + screenshotcnt + ".png"
+            FILENAME = os.path.join(os.path.dirname(os.path.abspath(__file__)), file)
         # URLにアクセス
         #for num in range(10):
          #   driver.get(url)
           #  print(str(num) + "/" + "10")
             driver.get(url)
-            
-    #for i, url in enumerate(url_list):
-    #    # URLリスト全体中何個目のURLを表示しているかを出力
-    #    print("  " + str(i+1) + "/" + str(len(url_list)))
-    #    # URLにアクセス
-    #    #for num in range(10):
-    #     #   driver.get(url)
-    #      #  print(str(num) + "/" + "10")
-    #    driver.get(url)
-        # ↓各URLに行いたい処理があればここで呼び出す関数を変更する
+
+            # ページの幅指定
+            w = driver.execute_script("return document.body.scrollWidth;")
+            h = driver.execute_script("return document.body.scrollHeight;")
+            # ウィンドウサイズセット
+            driver.set_window_size(w,h)
+
+            # スクショ撮影
+            driver.save_screenshot(FILENAME)
     print("===== end =====\n")
     # 終了
     #time.sleep(1)
