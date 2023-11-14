@@ -4,6 +4,7 @@ import sys
 import time
 #import chromedriver_binary
 import requests
+import subprocess
 from selenium import webdriver
 
 # *** main関数(実行は最下部) ***
@@ -49,38 +50,43 @@ def get_url_list(input_path):
 # *** ブラウジングを実行する関数 ***
 def browsing_urls(url_list):
     options = webdriver.ChromeOptions()
-    options.add_argument('--headless')
+    #options.add_argument('--headless')
     # ブラウザを最大化
     #options.add_argument("--start-maximized")
     # 「Chromeは自動テストソフトウェアによって制御されています。」を消すためのオプションの指定
     options.add_experimental_option("excludeSwitches", ["enable-automation"])
     options.add_experimental_option('useAutomationExtension', False)
     driver = webdriver.Chrome(options=options)
+    cnt=0
     print("\n===== start =====")
     # 一行ずつブラウザを開く
-    for num in range(10):
-        for i, url in enumerate(url_list):
-        # URLリスト全体中何個目のURLを表示しているかを出力
-            print("  " + str(i+1) + "/" + str(len(url_list)) +" forthe" + str(num+1) + "thtime")
+    for i, url in enumerate(url_list):
+    # URLリスト全体中何個目のURLを表示しているかを出力
+        print("  " + str(i+1) + "/" + str(len(url_list)))
             #スクショファイル名指定
-            screenshotcnt=0
-            screenshotcnt+=1
-            file="image/screen" + screenshotcnt + ".png"
-            FILENAME = os.path.join(os.path.dirname(os.path.abspath(__file__)), file)
+        cnt+=1
+        file="image/screen" + str(cnt) + ".png"
+        FILEPATH = os.path.join(os.path.dirname(os.path.abspath(__file__)), file)
+        print(FILEPATH)
+        #tcpdump起動
+        #pcapfile="pcap/" + str(cnt) + ".pcap"
+        pcapfile="./pcap/image.pcap"
+        password="Cookie!3777777\n".encode()
+        tcpdump=subprocess.Popen(["sudo","-S","tcpdump","-i","enxcce1d50d3d69","-s","0","-w", pcapfile],input=password)
         # URLにアクセス
         #for num in range(10):
-         #   driver.get(url)
-          #  print(str(num) + "/" + "10")
-            driver.get(url)
-
-            # ページの幅指定
-            w = driver.execute_script("return document.body.scrollWidth;")
-            h = driver.execute_script("return document.body.scrollHeight;")
-            # ウィンドウサイズセット
-            driver.set_window_size(w,h)
-
-            # スクショ撮影
-            driver.save_screenshot(FILENAME)
+        #   driver.get(url)
+        #  print(str(num) + "/" + "10")
+        driver.get(url)
+        # ページの幅指定
+        w = driver.execute_script("return document.body.scrollWidth;")
+        h = driver.execute_script("return document.body.scrollHeight;")
+        # ウィンドウサイズセット
+        driver.set_window_size(w,h)
+    
+        # スクショ撮影
+        driver.save_screenshot(FILEPATH)
+        tcpdump.kill()
     print("===== end =====\n")
     # 終了
     #time.sleep(1)

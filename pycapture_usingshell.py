@@ -33,12 +33,12 @@ def main():
             if(hexdata.version == '4'):
                 #print("4")
                 ip = ipaddress.IPv4Address(hexdata.src)
-                if(ip.compressed == '192.168.3.10' and direction < 5000):
+                if(ip.compressed == '192.168.10.150' and direction < 5000):
                     cnt+=1
                     dir[traffic_number][direction]=1
                     #print(traffic_number)
                     direction+=1
-                elif(ip.compressed != '192.168.3.10' and direction < 5000):
+                elif(ip.compressed != '192.168.10.150' and direction < 5000):
                     dir[traffic_number][direction]=-1
                     #print(traffic_number)
                     #if(direction < 5000):
@@ -48,12 +48,12 @@ def main():
             else:
                 #print("6")
                 ip = ipaddress.IPv6Address(hexdata.src)
-                if(ip.compressed == '2400:2650:6183:f000:c798:cb6a:4ce4:6e73' and direction < 5000):
+                if(ip.compressed == 'fe80::83a6:4691:127b:adb9' and direction < 5000):
                     cnt+=1
                     dir[traffic_number][direction]=1
                     #print(traffic_number)
                     direction+=1
-                elif(ip.compressed != '2400:2650:6183:f000:c798:cb6a:4ce4:6e73' and direction < 5000):
+                elif(ip.compressed != 'fe80::83a6:4691:127b:adb9' and direction < 5000):
                     dir[traffic_number][direction]=-1
                     #print(traffic_number)
                     #if(direction < 5000):
