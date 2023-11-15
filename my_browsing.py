@@ -6,10 +6,13 @@ import time
 import requests
 import subprocess
 from selenium import webdriver
+from selenium.webdriver.support.ui import WebDriverWait
+from selenium.webdriver.support import expected_conditions as EC
 
 # *** main関数(実行は最下部) ***
 def main():
     # URL一覧ファイルの受付
+    #sys.path.append("/home/r-tao/.local/lib/python3.8/site-packages/selenium")
     input_path = input_urls_file()
     # URLリストをファイルから取得
     url_list = get_url_list(input_path)
@@ -24,7 +27,7 @@ def input_urls_file():
     #print("\n########## Start processing ##########")
     #print("Input filepath of urls : ")
     # ファイルの入力の受付(フルパス)
-    input_path = "test_url_list2.txt"
+    input_path = "test_url_list.txt"
     #print("\nCheck input file ...\n")
     # ファイルの存在チェック
     #if os.path.exists(input_path):
@@ -50,14 +53,16 @@ def get_url_list(input_path):
 # *** ブラウジングを実行する関数 ***
 def browsing_urls(url_list):
     options = webdriver.ChromeOptions()
-    #options.add_argument('--headless')
+    options.add_argument('--headless')
     # ブラウザを最大化
-    #options.add_argument("--start-maximized")
+    options.add_argument("--start-maximized")
     # 「Chromeは自動テストソフトウェアによって制御されています。」を消すためのオプションの指定
     options.add_experimental_option("excludeSwitches", ["enable-automation"])
     options.add_experimental_option('useAutomationExtension', False)
     driver = webdriver.Chrome(options=options)
     cnt=0
+    #最大読み込み時間設定
+    wait=WebDriverWait(driver=driver,timeout=30)
     print("\n===== start =====")
     # 一行ずつブラウザを開く
     for i, url in enumerate(url_list):
@@ -71,22 +76,26 @@ def browsing_urls(url_list):
         #tcpdump起動
         #pcapfile="pcap/" + str(cnt) + ".pcap"
         pcapfile="./pcap/image.pcap"
-        password="Cookie!3777777\n".encode()
-        tcpdump=subprocess.Popen(["sudo","-S","tcpdump","-i","enxcce1d50d3d69","-s","0","-w", pcapfile],input=password)
+        #password="Cookie!3777777\n".encode()
+        #subprocess.Popen(["sudo","tcpdump","-i","enxcce1d50d3d69","-U","-w", pcapfile])
         # URLにアクセス
         #for num in range(10):
         #   driver.get(url)
         #  print(str(num) + "/" + "10")
-        driver.get(url)
-        # ページの幅指定
-        w = driver.execute_script("return document.body.scrollWidth;")
-        h = driver.execute_script("return document.body.scrollHeight;")
-        # ウィンドウサイズセット
-        driver.set_window_size(w,h)
-    
+        try:
+            driver.get(url)
+        #要素が全てくるまで待機
+            wait.until(EC.presence_of_all_elements_located)
         # スクショ撮影
-        driver.save_screenshot(FILEPATH)
-        tcpdump.kill()
+        #time.sleep(5)
+            driver.save_screenshot(FILEPATH)
+        #time.sleep(10)
+        #subprocess.run("kill","")
+        #pid=subprocess.run(["cat","/tmp/tcpdump.pid"])
+        #subprocess.run(["sudo","kill",pid])
+        except Exception as e:
+            print(e)
+            print("error発生")
     print("===== end =====\n")
     # 終了
     #time.sleep(1)
