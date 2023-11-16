@@ -47,17 +47,17 @@ def browsing_urls(url_list):
     options.add_experimental_option("excludeSwitches", ["enable-automation"])
     options.add_experimental_option('useAutomationExtension', False)
     
-    #driver = webdriver.Chrome(options=options)
+    driver = webdriver.Chrome(options=options)
 
     #最大読み込み時間設定
-    #wait=WebDriverWait(driver=driver,timeout=30)
+    wait=WebDriverWait(driver=driver,timeout=30)
     print("\n===== start =====")
     # 一行ずつブラウザを開く
-    for num in range(10):
+    for num in range(2):
         for url in url_list:
-            driver = webdriver.Chrome(options=options)
-            #最大読み込み時間設定
-            wait=WebDriverWait(driver=driver,timeout=30)
+            #driver = webdriver.Chrome(options=options)
+            ##最大読み込み時間設定
+            #wait=WebDriverWait(driver=driver,timeout=30)
             domain=urlparse(url).netloc
             print(domain + "へのアクセス" + str(num+1) + "回目")
             file="image/" + domain + "_" + str(num+1) + ".png"
@@ -65,8 +65,8 @@ def browsing_urls(url_list):
             #print(FILEPATH)
         #tcpdump起動
             pcapfile="./pcap/" + domain + "_" + str(num+1) + ".pcap"
-            subprocess.Popen(["sudo","tcpdump","-i","en5","-U","-w",pcapfile])
-        #subprocess.Popen(["sudo","tcpdump","-i","enxcce1d50d3d69","-U","-w", pcapfile])
+            #subprocess.Popen(["sudo","tcpdump","-i","en5","-w",pcapfile])
+            subprocess.Popen(["sudo","tcpdump","-i","enxcce1d50d3d69","-w", pcapfile])
         # URLにアクセス
             try:
                 driver.get(url)
@@ -79,13 +79,13 @@ def browsing_urls(url_list):
                 print()
         #不正アクセスと見做されないように時間を空ける
                 #time.sleep(3)
-                driver.close()
+                #driver.close()
             except Exception as e:
                 print(e)
                 print("error発生")
     print("===== end =====\n")
     # 終了
     print("Complete.\n")
-    #driver.close()
+    driver.close()
 # main関数の実行
 main()
