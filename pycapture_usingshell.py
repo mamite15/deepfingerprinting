@@ -8,7 +8,6 @@ import nest_asyncio
 def main():
     nest_asyncio.apply()
     dir=np.zeros((50,5000))
-    web_number=0
     traffic_number=-1
     cnt=0
     dir_path="./scap/"
