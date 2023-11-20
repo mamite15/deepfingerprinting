@@ -9,7 +9,7 @@ import pickle
 
 def main():
     nest_asyncio.apply()
-    vec=np.zeros((50,5000))
+    vec=np.zeros((500,5000))
     traffic_number=0
     cnt=0
     domain=[]
@@ -33,14 +33,14 @@ def main():
             if(hexdata.version == '4'):
                 #print("4")
                 ip = ipaddress.IPv4Address(hexdata.src)
-                #if(ip.compressed == '192.168.10.150' and direction < 5000):
-                if(ip.compressed == '192.168.3.9' and direction < 5000):
+                if(ip.compressed == '192.168.10.150' and direction < 5000):
+                #if(ip.compressed == '192.168.3.9' and direction < 5000):
                     cnt+=1
                     vec[traffic_number][direction]=1
                     #print(traffic_number)
                     direction+=1
-                #elif(ip.compressed != '192.168.10.150' and direction < 5000):
-                elif(ip.compressed != '192.168.3.9' and direction < 5000):
+                elif(ip.compressed != '192.168.10.150' and direction < 5000):
+                #elif(ip.compressed != '192.168.3.9' and direction < 5000):
                     vec[traffic_number][direction]=-1
                     #print(traffic_number)
                     #if(direction < 5000):
@@ -50,14 +50,14 @@ def main():
             else:
                 #print("6")
                 ip = ipaddress.IPv6Address(hexdata.src)
-                #if(ip.compressed == 'fe80::83a6:4691:127b:adb9' and direction < 5000):
-                if(ip.compressed == '2400:2650:6183:f000:68da:4cb3:55a5:6358' and direction < 5000):
+                if(ip.compressed == 'fe80::cee1:d5ff:fe0d:3d69' and direction < 5000):
+                #if(ip.compressed == '2400:2650:6183:f000:68da:4cb3:55a5:6358' and direction < 5000):
                     cnt+=1
                     vec[traffic_number][direction]=1
                     #print(traffic_number)
                     direction+=1
-                #elif(ip.compressed != 'fe80::83a6:4691:127b:adb9' and direction < 5000):
-                elif(ip.compressed != '2400:2650:6183:f000:68da:4cb3:55a5:6358' and direction < 5000):
+                elif(ip.compressed != 'fe80::cee1:d5ff:fe0d:3d69' and direction < 5000):
+                #elif(ip.compressed != '2400:2650:6183:f000:68da:4cb3:55a5:6358' and direction < 5000):
                     vec[traffic_number][direction]=-1
                     #print(traffic_number)
                     #if(direction < 5000):
