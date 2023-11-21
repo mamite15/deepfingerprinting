@@ -12,7 +12,7 @@ def main():
     vec=np.zeros((500,5000))
     traffic_number=0
     cnt=0
-    domain=[]
+    domain=np.zeros(500)
     #読み取るpcapファイル指定
     dir_path="./pcap/"
     file_list=glob.glob(os.path.join(dir_path,"*.pcap"))
@@ -23,7 +23,18 @@ def main():
         print(str(cap) + "の解析")
         sp=re.split("[/_]",str(cap))
         #print(traffic_number)
-        domain.append(str(sp[1]))
+        print(str(sp[1]))
+        if(str(sp[1]) == "www.google.com"):
+            domain[traffic_number]=1
+        elif(str(sp[1]) == "www.youtube.com"):
+            domain[traffic_number]=2
+        elif(str(sp[1]) == "www.amazon.co.jp"):
+            domain[traffic_number]=3
+        elif(str(sp[1]) == "www.twitter.com"):
+            domain[traffic_number]=4
+        else:
+            domain[traffic_number]=5
+        
         for packet in cap:
             #packet=cap[item]
             hexdata=packet[1]
@@ -80,12 +91,12 @@ def main():
     pkl(traffic_number,vec,domain)
 
 def pkl(traffic_number,vec,domain):
-    x_train_file = "pickle/x_train.pickle"
-    y_train_file = "pickle/y_train.pickle"
-    x_valid_file = "pickle/x_valid.pickle"
-    y_valid_file = "pickle/y_valid.pickle"
-    x_test_file = "pickle/x_test.pickle"
-    y_test_file = "pickle/y_test.pickle"
+    x_train_file = "pickle/x_train.pkl"
+    y_train_file = "pickle/y_train.pkl"
+    x_valid_file = "pickle/x_valid.pkl"
+    y_valid_file = "pickle/y_valid.pkl"
+    x_test_file = "pickle/x_test.pkl"
+    y_test_file = "pickle/y_test.pkl"
     
     
     a=traffic_number//10
