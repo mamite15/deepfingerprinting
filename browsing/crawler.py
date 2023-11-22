@@ -3,6 +3,7 @@ import time
 import subprocess
 from selenium import webdriver
 from urllib.parse import urlparse
+import parse
 
 # *** URLリストをファイルから取得する関数 ***
 def get_url_list(input_path):
@@ -34,10 +35,13 @@ def browsing_urls(url_list):
     options.add_experimental_option('useAutomationExtension', False)
 
     print("\n===== start =====")
-    #各サイトに1009回訪問
+    #トレース数カウント
+    trace_cnt=0
+    #各サイトに1000回訪問
     for num in range(1000):
         #1行ずつ読み込んで各サイトにアクセス
         for url in url_list:
+            trace_cnt+=1
             #chromeドライバ起動
             driver = webdriver.Chrome(options=options)
             #ドメイン名をurlから取り出す
@@ -68,6 +72,7 @@ def browsing_urls(url_list):
     print("===== end =====\n")
     # 終了
     print("クロール完了\n")
+    return trace_cnt
 
 def main():
     # URL一覧ファイルの受付
@@ -75,7 +80,9 @@ def main():
     # URLリストをファイルから取得
     url_list = get_url_list(input_path)
     # ブラウジング
-    browsing_urls(url_list)
+    trace_cnt=browsing_urls(url_list)
+    #パケット解析
+    parse.parse_main(trace_cnt)
 
 # main関数の実行
 main()

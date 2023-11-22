@@ -23,7 +23,7 @@ def label(domain_name):
 
     return label_number
 
-def parse(file_list,vec,domain,traffic_number):
+def src_or_dst(file_list,vec,domain,traffic_number):
     #1つずつpcapファイルを読み取って解析
     for pcap_file in file_list:
         packet_number=0
@@ -106,18 +106,18 @@ def pkl(traffic_number,vec,domain):
     with open(y_test_file,"wb") as yte:
         pickle.dump(y_test,yte)
 
-def main():
+def parse_main(trace_cnt):
     traffic_number=0
     nest_asyncio.apply()
     #特徴量初期化
-    vec=np.zeros((500,5000))
+    vec=np.zeros((trace_cnt,5000))
     #ラベル初期化
-    domain=np.zeros(500)
+    domain=np.zeros(trace_cnt)
     #読み取るpcapファイル指定
     dir_path="pcap/"
     file_list=glob.glob(os.path.join(dir_path,"*.pcap"))
     #パケット解析
-    vec,domain,traffic_number=parse(file_list,vec,domain,traffic_number)
+    vec,domain,traffic_number=src_or_dst(file_list,vec,domain,traffic_number)
 
     print("結果:")
     print("特徴")
@@ -126,5 +126,3 @@ def main():
     print(domain)
     #バイナリファイルに変換
     pkl(traffic_number,vec,domain)
-
-main()
