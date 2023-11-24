@@ -22,7 +22,8 @@
 4↔︎www.twitter.com  
 5↔︎www.yahoo.co.jp  
 
-取得したデータセットはpklファイルにしてpickleフォルダに保存しておく。
+取得したデータセットはpklファイルにしてpickleフォルダに保存しておく。  
+スクショを保存したimageフォルダ、トレースを保存したpcapフォルダ、バイ貼りファイルを保存したpickleファイルはデータサイズが大きいのでgithubには上げない
 
 ## 深層学習について
 学習はgooglecolabを用いて行う。
